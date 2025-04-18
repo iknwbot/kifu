@@ -161,7 +161,7 @@
     <script>
         async function loadDonations() {
             try {
-                const response = await fetch("https://jumps710.github.io/kodomonw/data/kifu.json?t=" + new Date().getTime());
+                const response = await fetch("https://iknwbot.github.io/kifu/data/kifu.json?t=" + new Date().getTime());
                 if (!response.ok) throw new Error("データ取得エラー");
                 const donations = await response.json();
                 donations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
