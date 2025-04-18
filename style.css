@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* フォーム全体を画面幅いっぱいに */
+form {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* タイトル */
+h1 {
+    text-align: left;
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* ローディングテキスト */
+#loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* 入力フォームのデザイン */
+.form-group {
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* LINEニックネームの表示 */
+.nickname-display {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+/* 入力フィールドの統一 */
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* プルダウンのサイズを他と統一 */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* メッセージ入力欄の高さ調整 */
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* 「寄付元」のポストフィックス「様」を右側に配置 */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    flex: 1;
+}
+
+.suffix {
+    margin-left: 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+
+.suffix {
+    margin-left: 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+/* サムネイル画像をモバイルに最適化 */
+.photo-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.thumbnail {
+    max-width: 80px;
+    height: auto;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+/* ボタン */
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease-in-out;
+}
+
+#registerBtn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#registerBtn:hover {
+    background-color: #3e8e41;
+}

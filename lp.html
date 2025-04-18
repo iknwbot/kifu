@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 全体のリセット */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .donation-report-button, .donation-view-button {
+            padding: 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .donation-report-button {
+            background-color: #4CAF50;
+        }
+
+        .donation-report-button:hover {
+            background-color: #3e8e41;
+        }
+
+        .donation-view-button {
+            background-color: #008080;
+        }
+
+        .donation-view-button:hover {
+            background-color: #006666;
+        }
+
+        /* モバイル対応 */
+        @media screen and (max-width: 480px) {
+            .button-container {
+                gap: 10px;
+            }
+
+            .donation-report-button, .donation-view-button {
+                padding: 16px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="button-container">
+    <button class="donation-report-button" onclick="location.href='https://miniapp.line.me/2006996059-NjRq5Mro'">寄付報告をする</button>
+    <button class="donation-view-button" onclick="location.href='https://jumps710.github.io/kodomonw/kifuSite.html'">寄付履歴をみる</button>
+</div>
+
+
+</body>
+</html>

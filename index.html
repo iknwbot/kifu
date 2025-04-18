@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザ登録</title>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
+    <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .modal {
+          display: none;
+          position: fixed;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background-color: rgba(0,0,0,0.6);
+          justify-content: center;
+          align-items: center;
+      }
+      .modal-content {
+          background: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+          width: 80%;
+          max-width: 400px;
+          font-size: 18px;
+      }
+      .modal-content button {
+          margin-top: 15px;
+          padding: 8px 20px;
+          border: none;
+          background-color: #4CAF50;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+      .modal-content button:hover {
+          background-color: #45a049;
+      }
+    </style>
+</head>
+<body>
+
+<form id="userForm">
+    <h1 id="formTitle" style="display:none;">ユーザ登録</h1>
+    <div id="loading">お待ちください...</div>
+    <div id="userInfo" class="form-group" style="display: none;">
+        <p><span id="nickname"></span> さん、以下より拠点名を選択してください。</p>
+        <label for="siteSelect">拠点:</label>
+        <select id="siteSelect"></select>
+        <div class="button-group">
+            <button id="registerBtn">登録</button>
+        </div>
+    </div>
+</form>
+
+<!-- モーダル -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <div id="modalMessage"></div>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
+<script>
+var vConsole = new VConsole();
+console.log("✅ vConsoleが起動しました");
+
+const LIFF_ID = "2006996059-NjRq5Mro";
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
+
+let userId, displayName;
+
+async function initLIFF() {
+    console.log("🚀 LIFF 初期化開始");
+    try {
+        await liff.init({ liffId: LIFF_ID });
+        console.log("✅ LIFF 初期化成功");
+
+        if (!liff.isLoggedIn()) {
+            console.log("⚠️ 未ログイン、ログイン処理を実行");
+            liff.login();
+            return;
+        }
+
+        console.log("🚀 LIFF ログイン済み");
+
+        const profile = await liff.getProfile();
+        userId = profile.userId;
+        displayName = profile.displayName;
+
+        console.log("✅ プロフィール取得成功");
+        console.log(`👤 userId: ${userId}`);
+        console.log(`👤 displayName: ${displayName}`);  // 追加: ニックネームのログ
+
+        // nicknameを直接表示して確認
+        document.getElementById("nickname").textContent = displayName;
+        console.log(`✅ nickname DOMにセット: ${displayName}`);
+
+        await checkUserRegistration();
+    } catch (error) {
+        console.error("❌ LIFF 初期化エラー:", error);
+        showModal("LIFFの初期化に失敗しました。再読み込みしてください。");
+    }
+}
+
+
+async function checkUserRegistration() {
+    console.log(`▶️ checkUserRegistration() 実行: userId=${userId}`);
+    try {
+        const response = await fetch(`${BACKEND_URL}?action=checkUser&userId=${userId}`);
+
+        console.log("📌 checkUser API response:", response);
+
+        if (!response.ok) {
+            throw new Error(`HTTPエラー: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("✅ checkUser API parsed JSON:", result);
+
+        if (result.exists) {
+            console.log("✅ ユーザー確認成功: フォームへ遷移");
+            window.location.href = `form.html?userId=${encodeURIComponent(userId)}&siteName=${encodeURIComponent(result.siteName)}&nickname=${encodeURIComponent(result.nickname)}`;
+        } else {
+            console.log("⚠️ ユーザー未登録: 登録フォームを表示");
+            await loadSiteOptions();
+
+            // **ここでnicknameを表示させる**
+            document.getElementById("nickname").textContent = displayName;
+
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("userInfo").style.display = "block";
+            document.getElementById("formTitle").style.display = "block";
+        }
+    } catch (error) {
+        console.error("❌ checkUser のエラー:", error);
+        showModal(`登録状況の確認に失敗しました。\n${error.message}`);
+    }
+}
+
+
+
+
+async function loadSiteOptions() {
+    console.log("🌐 loadSiteOptions() 実行");
+    try {
+        const response = await fetch(`${BACKEND_URL}?action=getSites`, {
+            method: "GET",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTPエラー: ${response.status}`);
+        }
+
+        const sites = await response.json();
+        console.log("✅ getSites API parsed JSON:", sites);
+
+        const select = document.getElementById("siteSelect");
+        select.innerHTML = ""; // 一度クリア
+
+        sites.forEach(site => {
+            const option = document.createElement("option");
+            option.value = site;
+            option.textContent = site;
+            select.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("❌ loadSiteOptions のエラー:", error);
+        showModal("拠点リストの取得に失敗しました");
+    }
+}
+
+    async function registerUser() {
+    const siteName = document.getElementById("siteSelect").value;
+    console.log("🚀 ユーザ登録開始: siteName=", siteName);
+
+    try {
+        const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                action: "donation_registerUser",
+                userId: userId,
+                displayName: displayName,
+                siteName: siteName
+            })
+        });
+
+        const result = await response.json();
+        console.log("✅ 登録成功:", result);
+
+        if (result.status === "success") {
+            showModal("登録が完了しました！", () => window.location.reload());
+        } else {
+            throw new Error(result.message);
+        }
+
+    } catch (error) {
+        console.error("❌ 登録エラー:", error);
+        showModal(`登録に失敗しました: ${error.message}`);
+    }
+}
+
+document.getElementById("registerBtn").addEventListener("click", async (event) => {
+    event.preventDefault();
+    await registerUser();
+});
+
+
+function showModal(message, callback = null) {
+    document.getElementById("modalMessage").innerHTML = message;
+    const modal = document.getElementById("customModal");
+    modal.style.display = "flex";
+    modal.callback = callback;
+}
+
+function closeModal() {
+    const modal = document.getElementById("customModal");
+    modal.style.display = "none";
+    if (modal.callback) modal.callback();
+}
+
+window.onload = function() {
+    console.log("🌐 window.onload イベント発火");
+    initLIFF();
+};
+</script>
+
+</body>
+</html>

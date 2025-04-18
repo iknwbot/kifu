@@ -1,0 +1,89 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFF + fetchテスト (vConsole付き)</title>
+
+    <!-- vConsoleのスクリプト -->
+    <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
+
+    <!-- 🔥 LIFF SDKの読み込み -->
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
+
+    <script>
+        // vConsole 初期化
+        var vConsole = new VConsole();
+        console.log("✅ vConsoleが起動しました");
+
+        const LIFF_ID = "2006996059-NjRq5Mro";
+        const BACKEND_URL = "https://script.google.com/macros/s/AKfycby3AtgmX1gCDd2KUeYT8TkUBkVKoh_VH0q3oflLp6Bp3tse0SOETZgGV9wgiP8fT4FY/exec";
+
+        async function initLIFF() {
+            console.log("🚀 LIFF 初期化開始");
+            try {
+                await liff.init({ liffId: LIFF_ID });
+                console.log("✅ LIFF 初期化成功");
+
+                if (!liff.isLoggedIn()) {
+                    console.log("⚠️ 未ログイン、ログイン処理を実行");
+                    liff.login();
+                    return;
+                }
+
+                console.log("🚀 LIFF ログイン済み");
+
+                const profile = await liff.getProfile();
+                const userId = profile.userId;
+                const displayName = profile.displayName;
+
+                console.log("✅ プロフィール取得成功");
+                console.log(`👤 userId: ${userId}`);
+                console.log(`👤 displayName: ${displayName}`);
+
+                alert(`LIFF 初期化成功\nuserId: ${userId}\ndisplayName: ${displayName}`);
+
+                // fetchを実行
+                await testFetch(userId);
+            } catch (error) {
+                console.error("❌ LIFF 初期化エラー:", error);
+                alert(`LIFF 初期化エラー: ${error.message}`);
+            }
+        }
+
+        async function testFetch(userId) {
+            const url = `${BACKEND_URL}?action=checkUser&userId=${userId}`;
+
+            try {
+                console.log("🚀 fetch開始: " + url);
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Cache-Control": "no-cache"
+                    }
+                });
+
+                console.log("✅ fetchレスポンス: ", response);
+
+                if (!response.ok) {
+                    throw new Error(`HTTPエラー: ${response.status}`);
+                }
+
+                const text = await response.text();
+                console.log("📌 fetchレスポンステキスト: ", text);
+
+                const json = JSON.parse(text);
+                console.log("✅ JSONパース成功: ", json);
+
+                alert(`成功！\n存在: ${json.exists}\nサイト名: ${json.siteName}\nニックネーム: ${json.nickname}`);
+            } catch (error) {
+                console.error("❌ fetchエラー: ", error);
+                alert("fetchエラー: " + error.message);
+            }
+        }
+
+        window.onload = function() {
+            console.log("🌐 ウィンドウロード完了");
+            initLIFF();
+        };
+    </script>
+</head>
