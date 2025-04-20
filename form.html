@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>寄付の報告</title>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.20.0/sdk.js"></script>
-  <script src="https://unpkg.com/vconsole/dist/vconsole.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <style>
     .custom-file-label {
@@ -191,8 +190,6 @@
     let userId = "", siteName = "", nickname = "";
 
     window.addEventListener('DOMContentLoaded', () => {
-      const vConsole = new VConsole();
-      console.log("✅ vConsole 起動しました");
 
       const params = new URLSearchParams(window.location.search);
       siteName = params.get("siteName") || "";
