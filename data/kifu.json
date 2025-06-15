@@ -1,5 +1,29 @@
 [
   {
+    "timestamp": "2025-06-15T03:04:52.545Z",
+    "nickname": "やすこ",
+    "userId": "U9164b748f9318182d77c6b371181d47b",
+    "donor": "株式会社新鮮ネットワーク 様",
+    "itemName": "冷凍食品",
+    "message": "お弁当やお惣菜を中心とした冷凍食品を約10ケースほどご寄付いただきました",
+    "imageUrl": "https://raw.githubusercontent.com/iknwbot/kifu/main/images/donation_image_1749959969755.jpg",
+    "siteName": "塩浜こども食堂",
+    "siteURL": "https://ichikawa-kodomosyokudounw.jimdofree.com/%E6%8B%A0%E7%82%B9%E7%B4%B9%E4%BB%8B/%E5%A1%A9%E6%B5%9C%E3%81%93%E3%81%A9%E3%82%82%E9%A3%9F%E5%A0%82/",
+    "instagramUrl": "https://www.instagram.com/p/DK6D_01saYZ/"
+  },
+  {
+    "timestamp": "2025-06-15T03:01:00.609Z",
+    "nickname": "やすこ",
+    "userId": "U9164b748f9318182d77c6b371181d47b",
+    "donor": "千葉県遊技業協同組合 様",
+    "itemName": "新潟県産コシヒカリ10㎏",
+    "message": "5合ずつ小分けにし、フードパントリーで1家庭1袋ずつ配布しました。",
+    "imageUrl": "https://raw.githubusercontent.com/iknwbot/kifu/main/images/donation_image_1749959961118.jpg",
+    "siteName": "塩浜こども食堂",
+    "siteURL": "https://ichikawa-kodomosyokudounw.jimdofree.com/%E6%8B%A0%E7%82%B9%E7%B4%B9%E4%BB%8B/%E5%A1%A9%E6%B5%9C%E3%81%93%E3%81%A9%E3%82%82%E9%A3%9F%E5%A0%82/",
+    "instagramUrl": "https://www.instagram.com/p/DK6D-y6sBN4/"
+  },
+  {
     "timestamp": "2025-06-14T21:45:52.257Z",
     "nickname": "masayoaizawa",
     "userId": "Ubd0f6ff0746ea516d914e59e5b585e67",
