@@ -275,6 +275,11 @@
     });
 
     document.getElementById("confirmSubmit").addEventListener("click", async () => {
+          // 二重送信防止
+    const confirmBtn = document.getElementById("confirmSubmit");
+    if (confirmBtn.disabled) return;
+    confirmBtn.disabled = true;
+      
       document.getElementById("loadingMsg").style.display = "block";
       const formData = {
         action: donationType === 'food' ? "food_donation_submit" : "money_donation_submit",
@@ -309,12 +314,14 @@
         }
       } catch (error) {
         console.error("送信エラー:", error);
+            confirmBtn.disabled = false; // エラー時は再度送信可能にする
         alert("送信に失敗しました");
       }
     });
 
     function closeModal() {
       document.getElementById("confirmationModal").style.display = "none";
+      document.getElementById("confirmSubmit").disabled = false; // モーダルを閉じた時も再度送信可能にする
     }
 
     function closeSuccess() {
